@@ -13,7 +13,7 @@ class MoviesController:
     def get_movies(self):
         movies = self.service.get_movies()
         return make_response(
-            jsonify(data = movies),
+            jsonify(data=[movie.as_dict() for movie in movies]),
             200
         )
     

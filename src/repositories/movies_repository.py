@@ -11,7 +11,11 @@ class MoviesRepository:
     
 
     def create_movie(self, data):
-        winner_value = data['winner'].lower() == 'yes' if 'winner' in data else False
+        # Verifies if winner exist in data. If not, set winner as False.
+        if data.get('winner'):
+            winner_value = data['winner'].lower() == 'yes' if 'winner' in data else False
+        else:
+            winner_value = False
 
         new_movie = MoviesModel(
             year = data['year'],

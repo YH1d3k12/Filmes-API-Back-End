@@ -10,3 +10,13 @@ class MoviesModel(db.Model):
     studios = db.Column(db.String(255), nullable=False)
     producers = db.Column(db.String(255), nullable=False)
     winner = db.Column(db.Boolean, default=False)
+
+    def as_dict(self):
+        return {
+            'id': self.id,
+            'year': self.year,
+            'title': self.title,
+            'studios': self.studios,
+            'producers': self.producers,
+            'winner': 'yes' if self.winner else 'no'
+        }
