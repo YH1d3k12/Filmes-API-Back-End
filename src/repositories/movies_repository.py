@@ -1,5 +1,6 @@
-from src.configs.database import db
 from src.models.movies_model import MoviesModel
+from src.configs.database import db
+from src.utilities.movies_verification import MoviesVerification
 
 
 class MoviesRepository:
@@ -12,17 +13,14 @@ class MoviesRepository:
 
     def create_movie(self, data):
         # Verifies if winner exist in data. If not, set winner as False.
-        if data.get('winner'):
-            winner_value = data['winner'].lower() == 'yes' if 'winner' in data else False
-        else:
-            winner_value = False
+        
 
         new_movie = MoviesModel(
             year = data['year'],
             title = data['title'],
             studios = data['studios'],
             producers = data['producers'],
-            winner = winner_value
+            winner = MoviesVerification.verify_winner_value(data)
         )
 
         db.session.add(new_movie)
