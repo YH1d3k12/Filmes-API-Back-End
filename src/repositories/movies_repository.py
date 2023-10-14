@@ -1,5 +1,8 @@
-from src.configs.database import db
+import pandas as pd
+
+from src.utilities.movies_verification import MoviesVerification
 from src.models.movies_model import MoviesModel
+from src.configs.database import db
 
 
 class MoviesRepository:
@@ -12,20 +15,34 @@ class MoviesRepository:
 
     def create_movie(self, data):
         # Verifies if winner exist in data. If not, set winner as False.
-        if data.get('winner'):
-            winner_value = data['winner'].lower() == 'yes' if 'winner' in data else False
-        else:
-            winner_value = False
+        
 
         new_movie = MoviesModel(
             year = data['year'],
             title = data['title'],
             studios = data['studios'],
             producers = data['producers'],
-            winner = winner_value
+            winner = MoviesVerification.verify_winner_value(data)
         )
 
         db.session.add(new_movie)
         db.session.commit()
 
         return new_movie
+    
+
+    def populate_database(self):
+        if not MoviesModel.query.first():
+            df = pd.read_csv('src/data/movielist.csv', delimiter=';', header=0)
+
+            for index, row in df.iterrows():
+
+                data = {
+                    'year': int(row['year']),
+                    'title': row['title'],
+                    'studios': row['studios'],
+                    'producers': row['producers'],
+                    'winner': row['winner']
+                }
+
+                self.create_movie(data)

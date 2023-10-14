@@ -1,7 +1,8 @@
 from flask import Flask
 
-from src.configs.database import Configs, db
+from src.repositories.movies_repository import MoviesRepository
 from src.routes.movies_route import movie_router
+from src.configs.database import Configs, db
 
 
 # Create the application instance.
@@ -14,8 +15,16 @@ app.config.from_object(Configs)
 
 db.init_app(app)
 
-# If app.py is run directly, start the server.
-if __name__ == '__main__':
+
+@app.before_first_request
+def before_first_request():
+
     with app.app_context():
         db.create_all()
+
+    MoviesRepository().populate_database()
+
+
+# If app.py is run directly, start the server.
+if __name__ == '__main__':
     app.run()
