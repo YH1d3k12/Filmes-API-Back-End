@@ -33,3 +33,12 @@ class MoviesController:
             jsonify(message='Movie created'),
             201
         )
+    
+
+    def populate_database(self):
+        self.service.populate_database()
+
+        return make_response(
+            jsonify(message='Database populated'),
+            201
+        )

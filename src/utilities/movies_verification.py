@@ -1,7 +1,7 @@
 class MoviesVerification:
     def verify_winner_value(data):
         if data.get('winner'):
-            winner_value = data['winner'].lower() == 'yes'
+            winner_value = str(data['winner']).lower() == 'yes'
         else:
             winner_value = False
     
