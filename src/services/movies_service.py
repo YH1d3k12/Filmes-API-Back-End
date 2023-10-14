@@ -15,7 +15,3 @@ class MoviesService:
 
     def create_movie(self, data):
         return self.movies_repository.create_movie(data)
-    
-
-    def populate_database(self):
-        return self.movies_repository.populate_database()

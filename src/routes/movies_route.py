@@ -16,8 +16,3 @@ def get_movies():
 @movie_router.route('/', methods=['POST'])
 def create_movie():
     return controller.create_movie()
-
-
-@movie_router.route('/populate', methods=['POST'])
-def populate_database():
-    return controller.populate_database()
