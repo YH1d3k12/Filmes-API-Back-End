@@ -7,7 +7,7 @@ class MoviesController:
 
 
     def __init__(self):
-        self.service = MoviesService()
+        self.services = MoviesService()
 
 
     def get_movies(self):
@@ -17,7 +17,7 @@ class MoviesController:
         Returns:
             data: Flask response containing a JSON representation of movies.
         """
-        movies = self.service.get_movies()
+        movies = self.services.get_movies()
         return make_response(
             jsonify(
                 message='Movies retrieved',
@@ -42,7 +42,7 @@ class MoviesController:
             'winner': request.json.get('winner')
         }
                 
-        new_movie = self.service.create_movie(data)
+        new_movie = self.services.create_movie(data)
 
         return make_response(
             jsonify(
@@ -50,4 +50,15 @@ class MoviesController:
                 data=new_movie
             ),
             201
+        )
+    
+
+    def get_producers(self):
+        producers = self.services.get_producers()
+
+        return make_response(
+            jsonify(
+                message='List of Producers',
+                data=producers
+            )
         )

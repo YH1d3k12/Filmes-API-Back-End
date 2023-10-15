@@ -32,3 +32,15 @@ def create_movie():
     """
         
     return controller.create_movie()
+
+
+@movie_router.route('/producers', methods=['GET'])
+def get_producers():
+    """
+    Route for retrieving producers individualy.
+
+    Returns:
+        Flask response: JSON representation of producers.
+    """
+        
+    return controller.get_producers()

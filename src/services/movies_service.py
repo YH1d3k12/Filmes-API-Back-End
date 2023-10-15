@@ -5,7 +5,7 @@ class MoviesService:
 
 
     def __init__(self):
-        self.movies_repository = MoviesRepository()
+        self.repository = MoviesRepository()
 
 
     def get_movies(self):
@@ -16,7 +16,7 @@ class MoviesService:
             List[MoviesModel]: List of MoviesModel instances representing movies.
         """
 
-        movies = self.movies_repository.get_movies()
+        movies = self.repository.get_movies()
         return movies
     
 
@@ -31,5 +31,10 @@ class MoviesService:
             MoviesModel: The newly created MoviesModel instance.
         """
         
-        new_movie = self.movies_repository.create_movie(data)
+        new_movie = self.repository.create_movie(data)
         return new_movie
+    
+
+    def get_producers(self):
+        producers = self.repository.get_producers()
+        return producers

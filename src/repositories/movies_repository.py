@@ -1,4 +1,6 @@
 import pandas as pd
+import re
+from collections import defaultdict
 
 from src.utilities.movies_verification import MoviesVerification
 from src.models.movies_model import MoviesModel
@@ -43,6 +45,24 @@ class MoviesRepository:
 
         return new_movie
     
+    
+    def get_producers(self):
+        # Gets movies from database.
+        movies = self.get_movies()
+
+        producers_data = defaultdict(list)
+
+        for movie in movies:
+            producers = re.split(', | and ', movie.producers)
+            for producer in producers:
+                data = {
+                    'title': movie.title,
+                    'year': movie.year,
+                    'winner': 'yes' if movie.winner else 'no'
+                }
+                producers_data[producer].append(data)
+
+        return producers_data
 
     def populate_database(self):
         """
