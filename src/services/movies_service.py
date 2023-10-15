@@ -38,3 +38,8 @@ class MoviesService:
     def get_producers(self):
         producers = self.repository.get_producers()
         return producers
+    
+
+    def get_awards_interval(self):
+        result = self.repository.get_awards_interval()
+        return result

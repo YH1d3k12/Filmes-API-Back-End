@@ -44,3 +44,15 @@ def get_producers():
     """
         
     return controller.get_producers()
+
+
+@movie_router.route('/awards', methods=['GET'])
+def get_awards_interval():
+    """
+    Route for retrieving the interval between awards of producers.
+
+    Returns:
+        Flask response: JSON representation of the interval between awards.
+    """
+    
+    return controller.get_awards_interval()

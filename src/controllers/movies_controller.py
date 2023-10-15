@@ -1,5 +1,7 @@
 from flask import request, make_response, jsonify
 
+from flask.json import JSONEncoder
+
 from src.services.movies_service import MoviesService
 
 
@@ -60,5 +62,18 @@ class MoviesController:
             jsonify(
                 message='List of Producers',
                 data=producers
-            )
+            ),
+            200
         )
+    
+
+    def get_awards_interval(self):
+        result = self.services.get_awards_interval()
+        
+        response = make_response(
+            jsonify(result),
+            200,
+        )
+
+
+        return response
