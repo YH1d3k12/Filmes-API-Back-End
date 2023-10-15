@@ -9,13 +9,26 @@ class MoviesRepository:
 
 
     def get_movies(self):
+        """
+        Retrieve all movies from database.
+
+        Returns:
+            List[MoviesModel]: List of MoviesModel instances representing movies.
+        """
         movies = MoviesModel.query.all()
         return movies
     
 
     def create_movie(self, data):
-        # Verifies if winner exist in data. If not, set winner as False.
-        
+        """
+        Create a new movie in the database.
+
+        Args:
+            data (dict): Dictionary containing movie data.
+
+        Returns:
+            MoviesModel: The newly created MoviesModel instance.
+        """
 
         new_movie = MoviesModel(
             year = data['year'],
@@ -32,6 +45,9 @@ class MoviesRepository:
     
 
     def populate_database(self):
+        """
+        Populate database with movies from movielist.csv file.
+        """
         if not MoviesModel.query.first():
             df = pd.read_csv('src/data/movielist.csv', delimiter=';', header=0)
 

@@ -11,6 +11,8 @@ class MoviesModel(db.Model):
     producers = db.Column(db.String(255), nullable=False)
     winner = db.Column(db.Boolean, default=False)
 
+
+    # Converts the object into a dictionary, making it easier to serialize as a json file.
     def as_dict(self):
         return {
             'id': self.id,
