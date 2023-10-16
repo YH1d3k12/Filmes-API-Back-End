@@ -1,4 +1,6 @@
 import pandas as pd
+import re
+from collections import defaultdict
 
 from src.utilities.movies_verification import MoviesVerification
 from src.models.movies_model import MoviesModel
@@ -9,13 +11,26 @@ class MoviesRepository:
 
 
     def get_movies(self):
+        """
+        Retrieve all movies from database.
+
+        Returns:
+            List[MoviesModel]: List of MoviesModel instances representing movies.
+        """
         movies = MoviesModel.query.all()
         return movies
     
 
     def create_movie(self, data):
-        # Verifies if winner exist in data. If not, set winner as False.
-        
+        """
+        Create a new movie in the database.
+
+        Args:
+            data (dict): Dictionary containing movie data.
+
+        Returns:
+            MoviesModel: The newly created MoviesModel instance.
+        """
 
         new_movie = MoviesModel(
             year = data['year'],
@@ -30,8 +45,93 @@ class MoviesRepository:
 
         return new_movie
     
+    
+    def get_producers(self):
+        # Gets movies from database.
+        movies = self.get_movies()
+
+        producers_data = defaultdict(list)
+
+        for movie in movies:
+            producers = re.split(', | and ', movie.producers)
+            for producer in producers:
+                data = {
+                    'title': movie.title,
+                    'year': movie.year,
+                    'winner': 'yes' if movie.winner else 'no'
+                }
+                producers_data[producer].append(data)
+
+        return producers_data
+    
+
+    def get_awards_interval(self):
+        producers_data = self.get_producers()
+
+        # Dictionary to store the intervals for each producer.
+        producer_intervals = defaultdict(list)
+
+        for producer, movies in producers_data.items():
+            winning_movies = [movie for movie in movies if movie['winner'] == 'yes']
+
+            if len(winning_movies) >= 2:
+                # lambda is a anonymous function that takes a variable `x` and returns `x['year']`.
+                winning_movies.sort(key=lambda x: x['year'])
+
+                # This loop iterates over the indices of the movies list, excluding the last index.
+                intervals = [
+                    movies[i + 1]['year'] - movies[i]['year'] 
+                    for i in range(len(movies) - 1)
+                ]
+
+                # Find intervals between awards.
+                if intervals:
+                    min_interval = min(intervals)
+                    min_index = intervals.index(min_interval)
+
+                data = {
+                    'interval': min_interval,
+                    'previousWin': movies[min_index]['year'],
+                    'followingWin': movies[min_index + 1]['year'],
+                }
+                producer_intervals[producer].append(data)
+                
+        # Sort producers by interval and get the top three.
+        top_producers_min = sorted(
+            producer_intervals.items(),
+            key=lambda x: x[1][0]['interval']
+        )[:3]  # Get the top three with the minimum interval.
+
+        top_producers_max = sorted(
+            producer_intervals.items(),
+            key=lambda x: x[1][0]['interval'],
+            reverse=True
+        )[:3]  # Get the top three with the maximum interval.
+
+        result = {
+            "min": [
+                {
+                    'producer': producer,
+                    **data[0]
+                }
+                for producer, data in top_producers_min
+            ],
+            "max": [
+                {
+                    'producer': producer,
+                    **data[0]
+                }
+                for producer, data in top_producers_max
+            ]
+        }
+
+        return result
+    
 
     def populate_database(self):
+        """
+        Populate database with movies from movielist.csv file.
+        """
         if not MoviesModel.query.first():
             df = pd.read_csv('src/data/movielist.csv', delimiter=';', header=0)
 

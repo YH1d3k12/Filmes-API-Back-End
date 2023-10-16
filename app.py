@@ -1,24 +1,28 @@
 from flask import Flask
 
 from src.repositories.movies_repository import MoviesRepository
+from src.configs.database import DatabaseConfigs, db
 from src.routes.movies_route import movie_router
-from src.configs.database import Configs, db
 
-
-# Create the application instance.
-# __name__ is the name of the current Python module.
+# Create an instance of the application.
+# __name__ is the name of the current Python module (the file name).
 app = Flask(__name__)
 
 app.register_blueprint(movie_router, url_prefix='/movies')
 
-app.config.from_object(Configs)
+# App configurations.
+app.config.from_object(DatabaseConfigs)
+app.config['JSON_SORT_KEYS'] = False 
 
 db.init_app(app)
 
 
+# Before the first request, create the database tables.
 @app.before_first_request
 def before_first_request():
-
+    # `app` is an instance of Flask, so we can use the `app_context()` method to get a context.
+    # Contesxt grants access to app configuration and resources.
+    # `with` is used to guarantee that the context is released when the block ends.
     with app.app_context():
         db.create_all()
 
