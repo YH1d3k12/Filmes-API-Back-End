@@ -86,3 +86,12 @@ python app.py
 python -m unittest tests.test_project
 ```
 
+## 💡 Principais Tecnologias Usadas 💡:
+###### 1. Flask (2.2.5):
+Um framework leve e simples para o desenvolvimento de APIs em python.
+
+###### 2. Flask-SQLAlchemy (3.0.5):
+Uma extensão do Flask que simplifica a integração do Flask com o SQLAlchemy, que é uma biblioteca SQL ORM para Python.
+
+###### 3. Pandas (1.3.5):
+Biblioteca que oferece ferramentas para manipulação e análise de dados.
