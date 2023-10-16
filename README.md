@@ -95,3 +95,6 @@ Uma extensão do Flask que simplifica a integração do Flask com o SQLAlchemy, 
 
 ###### 3. Pandas (1.3.5):
 Biblioteca que oferece ferramentas para manipulação e análise de dados.
+
+###### 4. SQLite: 
+Um banco de dados relacional leve e incorporado, escolhido por ser um projeto de pequeno porte.
