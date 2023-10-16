@@ -74,3 +74,15 @@ Certifique-se de que o ambiente virtual está ativado e, em seguida, execute o s
 pip install -r requirements.txt
 ```
 
+## ✨ Comandos ✨:
+Certifique-se de estar na raiz do projeto utilizando o ambiente virtual com todas as dependências instaladas.
+###### Iniciar a aplicação
+```
+python app.py
+```
+
+###### Executar Testes
+```
+python -m unittest tests.test_project
+```
+
