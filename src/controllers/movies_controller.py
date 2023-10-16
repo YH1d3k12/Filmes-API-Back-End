@@ -1,7 +1,5 @@
 from flask import request, make_response, jsonify
 
-from flask.json import JSONEncoder
-
 from src.services.movies_service import MoviesService
 
 
@@ -70,10 +68,7 @@ class MoviesController:
     def get_awards_interval(self):
         result = self.services.get_awards_interval()
         
-        response = make_response(
+        return make_response(
             jsonify(result),
-            200,
+            200
         )
-
-
-        return response

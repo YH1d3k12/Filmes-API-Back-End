@@ -1,8 +1,8 @@
 from flask import Flask
 
 from src.repositories.movies_repository import MoviesRepository
+from src.configs.database import DatabaseConfigs, db
 from src.routes.movies_route import movie_router
-from src.configs.database import Configs, db
 
 # Create an instance of the application.
 # __name__ is the name of the current Python module (the file name).
@@ -10,8 +10,9 @@ app = Flask(__name__)
 
 app.register_blueprint(movie_router, url_prefix='/movies')
 
-# Sets the app configuration from Configs.
-app.config.from_object(Configs)
+# App configurations.
+app.config.from_object(DatabaseConfigs)
+app.config['JSON_SORT_KEYS'] = False 
 
 db.init_app(app)
 
