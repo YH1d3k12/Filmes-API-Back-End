@@ -54,6 +54,12 @@ class MoviesController:
     
 
     def get_producers(self):
+        """
+        Retrieve all producers from service.
+
+        Returns:
+            data: Flask response containing a JSON representation of producers.
+        """
         producers = self.services.get_producers()
 
         return make_response(
@@ -66,6 +72,12 @@ class MoviesController:
     
 
     def get_awards_interval(self):
+        """
+        Retrieve the interval between awards from service.
+
+        Returns:
+            data: Flask response containing a JSON representation of awards interval.
+        """
         result = self.services.get_awards_interval()
         
         return make_response(
