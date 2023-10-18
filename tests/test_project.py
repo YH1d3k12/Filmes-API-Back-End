@@ -56,7 +56,7 @@ class TestApp(unittest.TestCase):
             # If at least one movie is within data assert True.
             self.assertTrue(len(json_data['data']) > 0)
 
-            # Adapte isso para verificar os detalhes específicos do seu JSON.
+            # Expected value from the first loaded data.
             expected_movie = {
                 "id": 1,
                 "year": 1980,

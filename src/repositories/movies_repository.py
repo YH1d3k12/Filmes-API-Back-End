@@ -47,9 +47,17 @@ class MoviesRepository:
     
     
     def get_producers(self):
+        """
+        Gets all producers individualy with their respective movies, based on movies.
+
+        Returns:
+            dict: Dictionary containing producers and their respective movies.
+        """
         # Gets movies from database.
         movies = self.get_movies()
 
+        # Defaultdict is used to only create a new key if the key is not found.
+        # That way, if a producer already exists, the value is associate with the producer key.
         producers_data = defaultdict(list)
 
         for movie in movies:
@@ -66,6 +74,12 @@ class MoviesRepository:
     
 
     def get_awards_interval(self):
+        """
+        Gets the interval between awards from producers.
+
+        Returns:
+            dict: Dictionary containing the top three producers with the minimum and maximum interval.
+        """
         producers_data = self.get_producers()
 
         # Dictionary to store the intervals for each producer.

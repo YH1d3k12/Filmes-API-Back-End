@@ -36,6 +36,12 @@ class MoviesService:
     
 
     def get_producers(self):
+        """
+        Retrieve producers from repository.
+
+        Returns:
+            dict: Dictionary containing producers and their respective movies
+        """
         producers = self.repository.get_producers()
         return producers
     
